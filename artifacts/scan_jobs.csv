@@ -1,0 +1,121 @@
+Category,job_id,title,location,experience_level,required_edu,required_edu_name
+ACCOUNTANT,3888411445,Sr. Staff Accountant,"Dallas, TX",Mid-Senior level,0,None
+ACCOUNTANT,3903448599,Cost Accountant,"Raleigh, NC",Associate,0,None
+ACCOUNTANT,3901946802,Senior Accounts Receivable Accountant,"Santa Monica, CA",Mid-Senior level,0,None
+ACCOUNTANT,3891095535,Senior Accountant,"Gettysburg, PA",Mid-Senior level,0,None
+ACCOUNTANT,3902876607,Senior Cost Accountant (85K-95K+Bonus),"Dallas, TX",Mid-Senior level,3,Bachelor
+ADVOCATE,3901354555,Family Law Attorney,"Fort Collins, CO",,0,None
+ADVOCATE,3886205413,Fund/Securities Transactional Attorney,"Dallas, TX",Mid-Senior level,0,None
+ADVOCATE,3902353284,Housing Attorney,"Kalamazoo, MI",,0,None
+ADVOCATE,3886456793,Corporate Paralegal,"Boston, MA",Mid-Senior level,3,Bachelor
+ADVOCATE,3906252395,"Vice President, Fund Formation Legal Counsel","San Francisco, CA",,0,None
+AGRICULTURE,3905859139,Agronomy Sales Representative,"Selby, SD",Entry level,0,None
+AGRICULTURE,3905872105,Parts Counter Sales Representative ~Lawn & Agriculture,"Middletown, OH",Entry level,0,None
+AGRICULTURE,3888973764,Lead Agricultural Technician,"Holyoke, CO",Mid-Senior level,0,None
+AGRICULTURE,3900943337,US Agriculture and Food Security Equity and Evaluation Specialist (Remote),"Cambridge, MA",Entry level,3,Bachelor
+AGRICULTURE,3905689361,General Laborer - Agriculture,"Eden, WI",,0,None
+APPAREL,3903836841,Part Time Mens Apparel Outfitter,"Mesa, AZ",,0,None
+APPAREL,3901359128,Sales Associate - Golf Apparel Shop,"Myrtle Beach, SC",Entry level,0,None
+APPAREL,3906230289,Production Associate - Apparel Grader - 2nd Shift,"Phoenix, AZ",,0,None
+APPAREL,3888938956,Retail Sales - Men's Apparel - The Shops at La Cantera,"San Antonio, TX",Entry level,0,None
+APPAREL,3905298904,Designated Selling Associate - Zegna Men's Apparel - Tysons Corner Center,"McLean, VA",Entry level,0,None
+ARTS,3905848455,Jewelry Artist,"Pocono, PA",,0,None
+ARTS,3814546942,MultiMedia Art Director,"Raleigh, NC",,0,None
+ARTS,3904721103,"Senior Art Director - (Hybrid) NY,NY","New York, NY",Director,0,None
+ARTS,3895592709,Volunteer Virtual Classroom Speaker (Curating a Museum),United States,Mid-Senior level,0,None
+ARTS,3891014109,Junior Art Director,"Chicago, IL",Associate,0,None
+AUTOMOBILE,3886870605,Entry-Level Automotive Engineer,"Cicero, IL",Entry level,0,None
+AUTOMOBILE,3906224854,Automotive Mechanic,"Trevose, PA",Entry level,0,None
+AUTOMOBILE,3894296835,Automotive Maintenance Technician,"Boynton Beach, FL",Entry level,0,None
+AUTOMOBILE,3902833468,Product Development Engineer (Automotive),"Houston, TX",Mid-Senior level,0,None
+AUTOMOBILE,3888972413,Automotive Technician,"Sacramento, CA",Entry level,0,None
+AVIATION,3905299286,Associate or Experienced Aircraft Painter (Level B or C) (Variable Shift),"North Charleston, SC",,3,Bachelor
+AVIATION,3904360991,Manufacturing Engineer - Aviation Component Service Center (ACSC),"Springdale, OH",Mid-Senior level,3,Bachelor
+AVIATION,3905293781,"Flight Test Instrumentation Engineer (Associate, Mid-Level or Senior)","St Charles, MO",,3,Bachelor
+AVIATION,3900953916,Aircraft Conceptual Design Technical Director,"Poway, CA",Director,3,Bachelor
+AVIATION,3902830505,Aircraft Interior Finisher,"Kinston, NC",Associate,0,None
+BANKING,3904967325,Personal Banker Associate I,"Grand Blanc, MI",Entry level,0,None
+BANKING,3889101478,Personal Banker III - Assistant Manager,"Lenexa, KS",Mid-Senior level,0,None
+BANKING,3887471276,"Retail Relationship Banker- Tucson, AZ (3175 N. Swan Rd.)","Tucson, AZ",,0,None
+BANKING,3888951074,Roving Personal Banker - Southwest Vegas Valley District,"Las Vegas, NV",Associate,0,None
+BANKING,3898164334,Branch Manager,"San Antonio, TX",Mid-Senior level,3,Bachelor
+BPO,3905374259,Customer Service Representative,"Troy, IL",Mid-Senior level,0,None
+BPO,3902320486,Customer Service Representative,"Long Beach, CA",Mid-Senior level,0,None
+BPO,3901685710,Customer Service Representative,"Orlando, FL",Mid-Senior level,0,None
+BPO,3902757225,Customer Service Representative,"Charlotte, NC",Mid-Senior level,0,None
+BPO,3905267620,CUSTOMER SERVICE REPRESENTATIVE,"Florence, KY",Mid-Senior level,0,None
+BUSINESS-DEVELOPMENT,3887712954,Director Business Development,"Chicago, IL",Director,0,None
+BUSINESS-DEVELOPMENT,3901956807,Business Development Representative,"Fargo, ND",,0,None
+BUSINESS-DEVELOPMENT,3905307214,Business Development Manager (Average $75K - $200K),United States,,0,None
+BUSINESS-DEVELOPMENT,3898161670,Business Development Specialist,"Charlotte, NC",,0,None
+BUSINESS-DEVELOPMENT,3906242119,Business Development Manager,"Dallas, TX",Mid-Senior level,0,None
+CHEF,3905822301,Chef de Cuisine,"Essex County, VT",Mid-Senior level,0,None
+CHEF,3905371551,Assistant Pantry Cook - Hilton Hawaiian Village Waikiki Beach Resort,"Honolulu, HI",Mid-Senior level,0,None
+CHEF,3901346605,Executive Sous Chef,"Orlando, FL",Mid-Senior level,0,None
+CHEF,3905372560,cook,"College Park, GA",Entry level,0,None
+CHEF,3905250229,Baker / AM Pastry Chef,"Stuart, FL",,0,None
+CONSTRUCTION,3903824215,Senior Construction Manager - Multi Family,"Tualatin, OR",Mid-Senior level,3,Bachelor
+CONSTRUCTION,3885103693,Construction Project Manager,"Atlanta, GA",Mid-Senior level,0,None
+CONSTRUCTION,3894299700,"Construction Inspector, Civil EIT","Mill Creek, WA",Mid-Senior level,0,None
+CONSTRUCTION,3891289099,Construction Project Manager Trainee,"Titusville, FL",Internship,0,None
+CONSTRUCTION,3895223138,Quality Control Manager (Construction/USACE),"Anchorage, AK",Mid-Senior level,0,None
+CONSULTANT,3904967562,Sales Consultant,"Urbandale, IA",Mid-Senior level,0,None
+CONSULTANT,3902366890,SAP CRM IPM (Intellectual Property Management) Consultant,United States,,0,None
+CONSULTANT,3904583773,Recruitment Consultant,"San Francisco, CA",Entry level,0,None
+CONSULTANT,3900092264,Senior HVDC System Design Consultant,"Dallas, TX",Mid-Senior level,4,Master
+CONSULTANT,3900067497,Sap Finance Control Consultant,"Austin, TX",Mid-Senior level,3,Bachelor
+DESIGNER,3886886014,Freelance Graphic Designer,"Chicago, IL",,0,None
+DESIGNER,3875677847,Lead Product Designer,"Austin, TX",,0,None
+DESIGNER,3903449152,Graphic Designer,"Phoenix, AZ",Associate,3,Bachelor
+DESIGNER,3905289290,UX Designer,"Asheville, NC",Mid-Senior level,3,Bachelor
+DESIGNER,3904974265,Lead Product Designer,"Los Angeles, CA",,0,None
+DIGITAL-MEDIA,3887835585,"VP,  Digital Marketing -B2B Manufacturing","Chattanooga, TN",,0,None
+DIGITAL-MEDIA,3829184899,Social Media Manager/Specialist,"Phoenix, AZ",,0,None
+DIGITAL-MEDIA,3902739151,"Specialist, Social Media / Editor","Nashville, TN",Entry level,0,None
+DIGITAL-MEDIA,3900084964,Social Media Manager,"Charlotte, NC",Mid-Senior level,3,Bachelor
+DIGITAL-MEDIA,3888051149,Summer Intern - Marketing/Social Media/Project,United States,,0,None
+ENGINEERING,3901940038,R&D Product Engineer III,"Tewksbury, MA",Mid-Senior level,3,Bachelor
+ENGINEERING,3904393333,Quality Engineer,"Columbus, IN",Entry level,3,Bachelor
+ENGINEERING,3904387555,Supplier Quality Engineer,"Fort Collins, CO",Entry level,3,Bachelor
+ENGINEERING,3884820693,Product Support Engineer,"Hampton, NJ",Entry level,0,None
+ENGINEERING,3906257186,Quality Process Engineer,"Kansas City, MO",,0,None
+FINANCE,3906254040,Sr. Financial Analyst - Dealer,"Ramsey, NJ",Mid-Senior level,3,Bachelor
+FINANCE,3889776778,Financial Analyst,"Audubon, PA",Entry level,0,None
+FINANCE,3904364142,Senior Financial Analyst,"Covington, LA",Mid-Senior level,0,None
+FINANCE,3886479155,Financial Analyst,"Chicago, IL",Entry level,3,Bachelor
+FINANCE,3905252807,Financial Analyst - Revenue Analytics (Entry Level),United States,Entry level,3,Bachelor
+FITNESS,3901360892,Fitness Specialist,"Gainesville, GA",Entry level,2,Associate
+FITNESS,3492110889,Group Fitness Instructor,"Oklahoma City, OK",,0,None
+FITNESS,3901362771,Fitness Specialist,"Myrtle Beach, SC",Entry level,2,Associate
+FITNESS,3886446392,Retail Sales Associate Bikes & Fitness,"Grand Rapids, MI",Entry level,0,None
+FITNESS,3885114143,Personal Trainer,"Dana Point, CA",,0,None
+HEALTHCARE,3902744635,Registered Nurse Clinical Support Resource,"Sanford, FL",Mid-Senior level,3,Bachelor
+HEALTHCARE,3895215785,Labor & Delivery Registered Nurse,"Aberdeen, WA",,0,None
+HEALTHCARE,3903824639,Registered Nurse (RN) Operating Room Wilmington Per Diem 36 hours,"Wilmington, DE",Mid-Senior level,0,None
+HEALTHCARE,3895566942,Medical Assistant - Internal Medicine - NEMG,"Stamford, CT",Entry level,0,None
+HEALTHCARE,3889241446,Registered Nurse,"Bronx, NY",,0,None
+HR,3892917093,Human Resources & Equity Director,"Seattle, WA",,0,None
+HR,3884444268,Human Resources Assistant,"Honolulu, HI",Associate,0,None
+HR,3899541582,Human Resources Business Partner,"Reno, NV",Mid-Senior level,0,None
+HR,3891003609,Human Resources Manager,"West Allis, WI",,0,None
+HR,3905609412,"Director, Human Resources","Manchester, NH",Director,3,Bachelor
+INFORMATION-TECHNOLOGY,3898173096,Windows Systems Administrator,"Chicago, IL",Associate,0,None
+INFORMATION-TECHNOLOGY,3906248485,On Site IT Help Desk Support,"Sacramento, CA",Entry level,0,None
+INFORMATION-TECHNOLOGY,3902752818,IT Support Analyst,"Tampa, FL",Entry level,2,Associate
+INFORMATION-TECHNOLOGY,3891285732,Systems Administrator III,"Albany, GA",Entry level,0,None
+INFORMATION-TECHNOLOGY,3903472938,Technical Help Desk,"Minneapolis, MN",Associate,0,None
+PUBLIC-RELATIONS,3895809703,Global External Communications Manager,"New York, NY",Mid-Senior level,0,None
+PUBLIC-RELATIONS,3904937810,Public Relations Specialist,"Boston, MA",,3,Bachelor
+PUBLIC-RELATIONS,3901964012,Public Relations & Partnerships Strategist,"Lakeville, MN",,0,None
+PUBLIC-RELATIONS,3904987409,Communications Specialist,"Waukegan, IL",Entry level,3,Bachelor
+PUBLIC-RELATIONS,3904357908,Marketing Communications Manager,"Juno Beach, FL",Mid-Senior level,0,None
+SALES,3899515414,Outside Sales Account Manager,"Sioux City, IA",Mid-Senior level,3,Bachelor
+SALES,3889712511,Sales Manager,"Sacramento, CA",Mid-Senior level,0,None
+SALES,3887844203,Retail Sales Associate (Part-Time),"Vallejo, CA",Entry level,0,None
+SALES,3902955625, PROMOTIONS AND SALES POSITIONS,"Denver, CO",Entry level,0,None
+SALES,3894872733,"Sales Manager, Boca Raton, FL","Boca Raton, FL",Entry level,0,None
+TEACHER,3905200683,Summer Program STEM Teacher,"Baltimore, MD",,0,None
+TEACHER,3898177315,Anchor: Long-Term Substitute Physical Education/Health Teacher,"Stamford, CT",,0,None
+TEACHER,3903831489,Daycare Teacher,"Carmel, IN",Entry level,0,None
+TEACHER,3898156837,Teacher - Consumer Family Studies - Middle,"Highlands Ranch, CO",Entry level,3,Bachelor
+TEACHER,3895528228,Middle School Performing Arts Teacher,"Newark, NJ",Associate,3,Bachelor

@@ -1,0 +1,16 @@
+{
+  "biased": {
+    "threshold": 0.4357304275035858,
+    "auc": 0.7838844874084852,
+    "tpr_own_category": 0.6472624798711756,
+    "fpr_other_category": 0.20654974445144578,
+    "top1_category_acc": 0.41827697262479874
+  },
+  "leace": {
+    "threshold": 0.41819849610328674,
+    "auc": 0.7797823010486324,
+    "tpr_own_category": 0.6423510466988728,
+    "fpr_other_category": 0.2123223412448365,
+    "top1_category_acc": 0.40660225442834136
+  }
+}

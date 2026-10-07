@@ -1,0 +1,82 @@
+<section id="architecture" data-transition="fade" style="background:#12182B;color:#EEF0F5;font-family:'IBM Plex Sans', Arial, sans-serif;padding:112px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6FA3F2;letter-spacing:2px;text-transform:uppercase">Website architecture</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.05;color:#EEF0F5">Built once offline, served by one ONNX model</h2>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:14px">
+<div style="width:200px;display:flex;flex-direction:column;gap:4px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:600;color:#F08A4B">Offline</h3>
+<p style="font-size:24px;color:#B9C2D6">Python, runs once</p>
+</div>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">data.py</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">CVs + US jobs</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">scan.py</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Gender, location, degree cues</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">audit.py</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Twins, thresholds, metrics</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">debias.py</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Fit the LEACE eraser</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #6FA3F2;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6FA3F2">export_onnx</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">One model, two heads</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:14px">
+<div style="width:200px;display:flex;flex-direction:column;gap:4px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:32px;font-weight:600;color:#6FA3F2">Online</h3>
+<p style="font-size:24px;color:#B9C2D6">Streamlit app</p>
+</div>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">Inputs</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">CV PDF/TXT, job text</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">Prepare</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Chunk + 6 what-if twins</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #6FA3F2;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#6FA3F2">ONNX</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">MiniLM + LEACE, 91 MB</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">Decide</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Cosine vs threshold</p>
+</div>
+<x-shape kind="arrow-right" style="background:#5B6888;width:30px;height:16px"></x-shape>
+<div style="flex:1;min-height:150px;display:flex;flex-direction:column;gap:6px;background:#1C2540;border:1px solid #2E3A5C;border-radius:18px;padding:22px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#EEF0F5">Show</p>
+<p style="font-size:24px;line-height:1.3;color:#B9C2D6">Before vs After, bias flag</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:24px">
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;background:#F6F4EF;border-radius:18px;padding:26px 30px">
+<p style="font-size:24px;color:#4A5163">Location flip rate</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#12182B"><span style="color:#B9501E">15.3%</span> → <span style="color:#2563C9">10.4%</span></p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;background:#F6F4EF;border-radius:18px;padding:26px 30px">
+<p style="font-size:24px;color:#4A5163">Impact ratio (≥ 0.80 is fair)</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#12182B"><span style="color:#B9501E">0.85</span> → <span style="color:#2563C9">0.92</span></p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;background:#F6F4EF;border-radius:18px;padding:26px 30px">
+<p style="font-size:24px;color:#4A5163">Matching AUC (kept)</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif;font-size:44px;font-weight:700;color:#12182B"><span style="color:#B9501E">0.784</span> → <span style="color:#2563C9">0.780</span></p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#8C96AD">Orange = original model (before) · Blue = debiased model (after) · RASK-bias · 2 / 2</p>
+<aside>Offline, Python scripts scan the data, audit the original model, fit the LEACE eraser and export a single ONNX file with two outputs: the original embedding and the debiased one. Online, the Streamlit app reads a CV PDF or text and a job description, builds six what-if twins of the CV (three regions times two genders), runs everything through ONNX Runtime and shows the original and debiased decisions side by side, flagging bias when the decision changes. Across the dataset, location flips fell from 15.3 to 10.4 percent with matching quality unchanged; the remaining gap is non-linear and is our next step.</aside>
+</section>

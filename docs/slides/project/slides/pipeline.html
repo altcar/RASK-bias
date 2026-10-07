@@ -1,0 +1,68 @@
+<section id="pipeline" data-transition="fade" style="background:#F6F4EF;color:#12182B;font-family:'IBM Plex Sans', Arial, sans-serif;padding:112px 128px 160px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9;letter-spacing:2px;text-transform:uppercase">RASK-bias · End to end</p>
+<h2 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:72px;font-weight:700;line-height:1.05;color:#12182B">Fair CV screening, from raw data to a live app</h2>
+</div>
+<div style="display:flex;flex-direction:row;align-items:center;gap:14px">
+<div style="flex:1;min-height:190px;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9">01</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">Scan</h3>
+<p style="font-size:24px;line-height:1.35;color:#4A5163">2,484 Kaggle CVs and 120 US LinkedIn jobs</p>
+</div>
+<x-shape kind="arrow-right" style="background:#9AA3B5;width:34px;height:18px"></x-shape>
+<div style="flex:1;min-height:190px;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9">02</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">Score</h3>
+<p style="font-size:24px;line-height:1.35;color:#4A5163">MiniLM embeds CV and job; cosine is the match</p>
+</div>
+<x-shape kind="arrow-right" style="background:#9AA3B5;width:34px;height:18px"></x-shape>
+<div style="flex:1;min-height:190px;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9">03</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">Audit</h3>
+<p style="font-size:24px;line-height:1.35;color:#4A5163">Same CV, only gender, city or degree swapped</p>
+</div>
+<x-shape kind="arrow-right" style="background:#9AA3B5;width:34px;height:18px"></x-shape>
+<div style="flex:1;min-height:190px;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9">04</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">Debias</h3>
+<p style="font-size:24px;line-height:1.35;color:#4A5163">LEACE erases location and gender signal</p>
+</div>
+<x-shape kind="arrow-right" style="background:#9AA3B5;width:34px;height:18px"></x-shape>
+<div style="flex:1;min-height:190px;display:flex;flex-direction:column;gap:8px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:26px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9">05</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">Ship</h3>
+<p style="font-size:24px;line-height:1.35;color:#4A5163">One ONNX model inside a Streamlit app</p>
+</div>
+</div>
+<div style="display:flex;flex-direction:row;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B9501E;letter-spacing:1px;text-transform:uppercase">The model</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">all-MiniLM-L6-v2</h3>
+<ul style="font-size:24px;line-height:1.4;color:#4A5163">
+<li>6-layer sentence encoder, 384-d vectors</li>
+<li>CVs cut into 180-word chunks, averaged</li>
+<li>PASS if cosine ≥ 0.436 (AUC 0.78)</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FDFCF9;border:1px solid #E2DFD6;border-radius:20px;padding:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2563C9;letter-spacing:1px;text-transform:uppercase">The debias layer</p>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:36px;font-weight:600;color:#12182B">LEACE concept erasure</h3>
+<ul style="font-size:24px;line-height:1.4;color:#4A5163">
+<li>Closed form: x′ = x·A + b</li>
+<li>Fitted on 36 cities × 2 genders</li>
+<li>Belrose et al., 2023</li>
+</ul>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:12px;background:#12182B;border-radius:20px;padding:36px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B9C2D6;letter-spacing:1px;text-transform:uppercase">Location decision flips</p>
+<div style="display:flex;flex-direction:row;align-items:center;gap:20px">
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;color:#F08A4B">15.3%</h3>
+<x-shape kind="arrow-right" style="background:#B9C2D6;width:44px;height:22px"></x-shape>
+<h3 style="font-family:'Space Grotesk', Arial, sans-serif;font-size:64px;font-weight:700;color:#6FA3F2">10.4%</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#B9C2D6">Before → after debias. Matching AUC kept: 0.784 → 0.780</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#7A8091">RASK-bias · UoB Datathon · 1 / 2</p>
+<aside>Five steps. We scanned 2,484 Kaggle resumes and matched them to 120 US LinkedIn postings. A pretrained MiniLM sentence encoder scores how well a CV matches a job. We audited it with counterfactual twins: the same CV with only gender, city or degree changed. Location changed 15% of decisions, so we added a LEACE eraser, a closed-form linear layer, and shipped both versions in one ONNX model behind a Streamlit app.</aside>
+</section>

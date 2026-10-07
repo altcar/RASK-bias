@@ -1,0 +1,11 @@
+pandas
+numpy
+scikit-learn
+sentence-transformers
+datasets
+matplotlib
+onnx
+onnxruntime
+streamlit
+pypdf
+onnxscript

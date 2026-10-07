@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.DS_Store
+
+# Large / regenerable files
+# Resume.csv: unzip Data/Resume.zip
+Data/Resume.csv
+artifacts/embed_cache/
+# screener.onnx: python -m src.export_onnx
+artifacts/onnx/screener.onnx
+# pair-level audit tables: python -m src.audit
+artifacts/audit_*_pairs.csv
