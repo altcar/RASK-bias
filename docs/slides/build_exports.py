@@ -147,7 +147,7 @@ def slide_pipeline(prs):
                ["6-layer encoder, 384-d vectors", "CVs split into 180-word chunks",
                 "PASS if cosine ≥ 0.436 (AUC 0.78)"]),
               ("The debias layer", BLUE, "LEACE concept erasure",
-               ["Closed form: x′ = x·A + b", "Fitted on 36 cities × 2 genders", "Belrose et al., 2023"])]
+               ["Closed form: x′ = x·A + b", "Fitted on 33 cities, both genders", "Belrose et al., 2023"])]
     for i, (eyebrow, ecol, title, items) in enumerate(panels):
         px = x + i * (pw + pg)
         box(s, px, py, pw, ph, CARD, LINE, radius=0.06)
