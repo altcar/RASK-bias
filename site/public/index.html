@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RASK-bias — auditing and erasing location bias in résumé screening</title>
+<meta name="description" content="We rebuilt an ATS with MiniLM, audited 2,484 résumés against 120 US job posts, found that location alone flips 15.3% of screening decisions, and erased it in closed form with LEACE. Run the demo in your browser." />
+<meta name="theme-color" content="#12130f" />
+<meta property="og:title" content="RASK-bias — the résumé screener that reads your postcode" />
+<meta property="og:description" content="2,484 résumés × 120 US jobs × 17,058 counterfactual copies. Location bias found, measured, and erased with LEACE." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://rask-bias.hheylau.workers.dev/og.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://rask-bias.hheylau.workers.dev/og.png" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preload" href="/fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/instrument-sans-var.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/jetbrains-mono-var.woff2" as="font" type="font/woff2" crossorigin />
+<script>
+  document.documentElement.classList.add('js');
+  // Guarantee content is visible even if the module never runs.
+  setTimeout(function () {
+    document.querySelectorAll('.reveal:not(.is-in)').forEach(function (el) { el.classList.add('is-in'); });
+  }, 5000);
+</script>
+<noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
+<link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+
+<a class="skip" href="#lab">Skip to the demo</a>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="RASK-bias, back to top">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-word">RASK<span class="brand-dot">·</span>BIAS</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#audit">Audit</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#leace">LEACE</a>
+      <a href="#lab" class="nav-cta">Bias lab</a>
+      <a href="https://github.com/altcar/RASK-bias" target="_blank" rel="noreferrer" class="nav-gh">GitHub ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================================================== HERO -->
+<section class="hero" id="top">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Hackathon build · fairness in hiring</p>
+      <h1>Same résumé.<br />Same skills.<br /><em>Different city.</em><br />Different answer.</h1>
+      <p class="lede">
+        We rebuilt an applicant tracking system with MiniLM, ran it over <strong>2,484 résumés</strong>
+        and <strong>120 US job posts</strong>, then re-scored every CV with only the address changed.
+        Location alone flips <strong>15.3%</strong> of decisions. Then we erased the location
+        subspace — in closed form — with LEACE, and shipped both models to the browser so you can
+        take it apart yourself.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#lab">Run the bias lab <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#audit">Read the audit</a>
+      </div>
+      <dl class="hero-stats">
+        <div><dt>Résumés audited</dt><dd>2,484</dd></div>
+        <div><dt>Counterfactual copies</dt><dd>17,058</dd></div>
+        <div><dt>Location flip rate</dt><dd><span class="strike">15.3%</span> <span class="arrow">→</span> <span class="now">10.4%</span></dd></div>
+      </dl>
+    </div>
+
+    <aside class="exhibit" aria-label="Exhibit A: one CV, three addresses">
+      <div class="exhibit-head">
+        <span class="mono-label">Exhibit A</span>
+        <span class="mono-label">healthcare CV · own-category job</span>
+      </div>
+      <p class="exhibit-title">One CV, three addresses, six decisions.</p>
+      <div class="exhibit-legend">
+        <span><i class="sw sw-bias"></i> Original model</span>
+        <span><i class="sw sw-fair"></i> After LEACE</span>
+        <span class="exhibit-thr">pass mark 0.4357 → 0.4182</span>
+      </div>
+      <div class="exhibit-rows" id="hero-chart" data-chart="hero">
+        <noscript><p class="muted">Enable JavaScript to see the score comparison.</p></noscript>
+      </div>
+      <p class="exhibit-foot">
+        Identical text. Only the name header and every “City, State” placeholder change.
+        Scores are cosine similarities from the shipped int8 model and the shipped 384×384
+        eraser; bars are drawn from 0.38 so the differences are visible.
+      </p>
+    </aside>
+  </div>
+  <div class="hero-fade" aria-hidden="true"></div>
+</section>
+
+<!-- ============================================================== 01 AUDIT -->
+<section class="band" id="audit">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>01</span> The audit</p>
+      <h2>Hold everything fixed. Change <em>one</em> thing.</h2>
+      <p class="section-lede">
+        A résumé is a long document. One name, one address, one degree — each is a tiny signal
+        among a thousand words. So we never compared different people. We compared a CV
+        <em>with itself</em>: two gendered names, three addresses, three degree levels, then scored
+        every copy against the jobs in its own field — jobs the person should be able to get.
+      </p>
+      <p class="section-note">
+        Two lenses, one test: <strong>activational-space bias</strong> — what the embedding encodes
+        about who the applicant is — and <strong>behavioural bias</strong> — what the system decides.
+        The audit measures the decision; the eraser edits the activation.
+      </p>
+    </header>
+
+    <div class="method-row">
+      <article class="method reveal">
+        <p class="mono-label">Attribute 01</p>
+        <h3>Location</h3>
+        <p>Every <code>City, State</code> placeholder filled with one city, plus a matching header.
+          US, UK/Europe and Asia cities, held out from the debiasing fit.</p>
+        <p class="method-note">The finding.</p>
+      </article>
+      <article class="method reveal">
+        <p class="mono-label">Attribute 02</p>
+        <h3>Gender</h3>
+        <p>Two names sharing a surname plus one pronoun, so only the gendered part changes.
+          Ten pairs from mixed ethnic backgrounds.</p>
+        <p class="method-note">Small effect — see below.</p>
+      </article>
+      <article class="method reveal">
+        <p class="mono-label">Attribute 03</p>
+        <h3>Education</h3>
+        <p>Degrees rewritten inside the Education section only, checked against what the job
+          actually requires. A fail below a stated requirement is legitimate, not bias.</p>
+        <p class="method-note">Requirement-aware.</p>
+      </article>
+    </div>
+
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div>
+          <p class="mono-label">Result</p>
+          <h3>Pass rate on own-category jobs</h3>
+        </div>
+        <div class="toggle" role="group" aria-label="Choose model">
+          <button class="toggle-btn is-on" data-method="biased" aria-pressed="true">Original</button>
+          <button class="toggle-btn" data-method="leace" aria-pressed="false">After LEACE</button>
+        </div>
+      </div>
+      <div class="chart-grid" id="pass-chart" data-chart="passrates"></div>
+      <p class="chart-foot">
+        PASS = cosine similarity to the job above the calibrated threshold
+        (<span data-num="thr-biased">0.4357</span> original · <span data-num="thr-leace">0.4182</span> LEACE).
+        Bars are pass rates over 12,420 gender/location pairs and 7,730 requirement-eligible
+        education pairs. <span class="legend-bias">■ Original</span> <span class="legend-fair">■ After LEACE</span>
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="panel reveal">
+        <div class="panel-head">
+          <div>
+            <p class="mono-label">Stability</p>
+            <h3>Decision flip rate</h3>
+          </div>
+        </div>
+        <div id="flip-chart" data-chart="flips"></div>
+        <p class="chart-foot">
+          Share of CV–job pairs whose PASS/FAIL decision changes when only that attribute changes.
+          The dashed line is the 1% tolerance.
+        </p>
+      </div>
+      <div class="panel reveal">
+        <div class="panel-head">
+          <div>
+            <p class="mono-label">Magnitude</p>
+            <h3>Location score gap</h3>
+          </div>
+        </div>
+        <div id="gap-chart" data-chart="gaps"></div>
+        <p class="chart-foot">
+          Mean cosine gap versus a US address, with 95% confidence intervals, across &gt;12,000
+          paired comparisons. Negative = penalised.
+        </p>
+      </div>
+    </div>
+
+    <figure class="pullquote reveal">
+      <blockquote>
+        <strong>1,338</strong> CV–job pairs pass with a US address and fail with an Asian one.
+        Only <strong>148</strong> go the other way.
+      </blockquote>
+      <figcaption>Location audit, original model · 12,420 pairs</figcaption>
+    </figure>
+
+    <div class="table-card reveal">
+      <table class="data-table">
+        <caption class="sr-only">Audit summary, original model versus LEACE</caption>
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Pass rates</th>
+            <th scope="col">Impact ratio</th>
+            <th scope="col">Flips</th>
+            <th scope="col">Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Location</th>
+            <td><span class="cell-pair"><span>US 63.1</span><span>UK 55.8</span><span>Asia 53.5</span></span></td>
+            <td class="num bad">0.85</td>
+            <td class="num bad">15.3%</td>
+            <td><span class="pill pill-bad">Biased</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Gender</th>
+            <td><span class="cell-pair"><span>F 64.5</span><span>M 64.4</span></span></td>
+            <td class="num">1.00</td>
+            <td class="num">0.8%</td>
+            <td><span class="pill pill-ok">No bias</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Education</th>
+            <td><span class="cell-pair"><span>Assoc 66.0</span><span>Bach 66.2</span><span>Master 66.1</span></span></td>
+            <td class="num">1.00</td>
+            <td class="num">0.8%</td>
+            <td><span class="pill pill-ok">No bias</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="table-note">
+        Verdict rule: impact ratio below 0.80 (the EEOC four-fifths rule), flip rate above 1%, or a
+        statistically significant score gap of at least 0.005.
+        <span class="mono">632</span> education fails below a stated requirement were excluded as legitimate.
+      </p>
+    </div>
+
+    <div class="insight-grid">
+      <article class="insight reveal">
+        <h3>Why location leaks</h3>
+        <p>
+          All 120 job posts are US-based. Their text is dense with “Chicago, IL”, state names and
+          US spellings, so a CV that says “Austin, TX, USA” simply overlaps more with the job text.
+          The embedding moves closer. Nothing about the candidate's qualifications changed.
+        </p>
+      </article>
+      <article class="insight reveal">
+        <h3>Why gender barely registers</h3>
+        <p>
+          One name and one pronoun among ~1,000 words, averaged over ~6 chunks, is a rounding
+          error in a 384-dimensional vector: a gap of 0.0003, far below the 0.005 practical cutoff.
+          Real names carry more signal than our injected header — a limit, not a clean bill of health.
+        </p>
+      </article>
+      <article class="insight reveal">
+        <h3>Why education holds</h3>
+        <p>
+          The encoder reads “Bachelor of Science” and “Master of Science” as near-synonyms, and we
+          only count jobs where the level is not disqualifying. Where a degree really is required,
+          the app says so instead of calling it bias.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== 02 PIPELINE -->
+<section class="band band-alt" id="pipeline">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>02</span> The pipeline</p>
+      <h2>Scan → Score → Audit → Debias → Ship</h2>
+      <p class="section-lede">
+        A pretrained sentence encoder plays the ATS. No classifier was trained, no labels were
+        invented. Every number on this page comes from the artefacts in the
+        <a href="https://github.com/altcar/RASK-bias" target="_blank" rel="noreferrer">repository</a>.
+      </p>
+    </header>
+
+    <ol class="pipeline">
+      <li class="step reveal">
+        <span class="step-num">01</span>
+        <h3>Scan</h3>
+        <p class="step-sub">2,484 résumés · 120 postings</p>
+        <p>Kaggle résumés across 24 fields, matched to US LinkedIn postings longer than 500
+          characters. Five postings per field, fixed seed.</p>
+        <p class="step-stat"><strong>95.1%</strong> of CVs hide their real city behind “City, State” — the gap that makes a counterfactual audit possible.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">02</span>
+        <h3>Score</h3>
+        <p class="step-sub">MiniLM-L6 · 384 dimensions</p>
+        <p>The model reads 256 tokens, so each CV is cut into 180-word chunks, embedded, then
+          averaged into one 384-number document vector. Score = cosine against the job.</p>
+        <p class="step-stat"><strong>0.4357</strong> pass mark, calibrated by Youden's J on own-category vs other-category pairs. AUC <strong>0.784</strong>.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">03</span>
+        <h3>Audit</h3>
+        <p class="step-sub">17,058 counterfactual copies</p>
+        <p>Gender ×2, location ×3, education ×3 per CV, scored against the five jobs of its own
+          category. Pass rates, impact ratios, flip rates, paired score gaps with 95% CIs.</p>
+        <p class="step-stat"><strong>15.3%</strong> of location pairs flip. Gender and education stay under <strong>1%</strong>.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">04</span>
+        <h3>Debias</h3>
+        <p class="step-sub">LEACE · closed form</p>
+        <p>9,900 embeddings from 300 CVs × 33 cities with gender alternating. The eraser is solved
+          once, in closed form: a 384×384 matrix plus a bias vector.</p>
+        <p class="step-stat">Flips <strong>15.3% → 10.4%</strong>; matching AUC <strong>0.784 → 0.780</strong>, essentially untouched.</p>
+      </li>
+      <li class="step reveal">
+        <span class="step-num">05</span>
+        <h3>Ship</h3>
+        <p class="step-sub">One ONNX graph, two outputs</p>
+        <p>MiniLM, mean pooling and the eraser live in one file with <code>biased_emb</code> and
+          <code>fair_emb</code> outputs. This site runs the same weights in your browser.</p>
+        <p class="step-stat">ONNX vs PyTorch: max difference <strong>2×10⁻⁷</strong>. Both screener thresholds re-calibrated separately.</p>
+      </li>
+    </ol>
+
+    <div class="spec-row reveal">
+      <div class="spec"><span class="mono-label">Encoder</span><strong>all-MiniLM-L6-v2</strong><span>6 layers · 22M params</span></div>
+      <div class="spec"><span class="mono-label">Embedding</span><strong>384-d</strong><span>unit-norm document vector</span></div>
+      <div class="spec"><span class="mono-label">Chunking</span><strong>180 words</strong><span>mean of chunk vectors</span></div>
+      <div class="spec"><span class="mono-label">Eraser</span><strong>384 × 384</strong><span>one matrix + bias, 590 KB</span></div>
+      <div class="spec"><span class="mono-label">Runtime here</span><strong>int8 · WASM</strong><span>onnxruntime-web, no server</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== 03 LEACE -->
+<section class="band band-ink" id="leace">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>03</span> The eraser</p>
+      <h2>Erase the direction, <em>keep everything else</em>.</h2>
+      <p class="section-lede">
+        LEACE (Belrose et al., 2023) removes a concept from an embedding space with a guarantee:
+        after the transform, <em>no linear classifier</em> can tell the concept apart — while moving
+        each vector as little as possible. For location and gender, that is exactly the signal we
+        do not want a screener to use.
+      </p>
+    </header>
+
+    <div class="leace-grid">
+      <div class="formula-card reveal">
+        <p class="mono-label">Closed form</p>
+        <div class="formula">
+          <span class="f-line">W = Σ<sub>XX</sub><sup>−½</sup></span>
+          <span class="f-line">P = proj<sub>col(W Σ<sub>XZ</sub>)</sub></span>
+          <span class="f-line f-final">r(x) = x − W⁺PW(x − μ) = xA + b</span>
+        </div>
+        <p class="formula-note">
+          <span class="mono">X</span> = 9,900 embeddings. <span class="mono">Z</span> = one-hot city
+          (33 values) + gender. Whitening makes the covariance spherical; the projection removes
+          every direction that correlates with the labels. Fitted once, no training loop, no
+          hyper-parameters beyond an eigenvalue cutoff.
+        </p>
+      </div>
+
+      <div class="leace-facts">
+        <div class="fact reveal">
+          <span class="fact-k">9,900</span>
+          <span class="fact-v">training embeddings<br />300 CVs × 33 cities</span>
+        </div>
+        <div class="fact reveal">
+          <span class="fact-k">33</span>
+          <span class="fact-v">city labels, not 3 regions<br />the first attempt used regions and barely moved</span>
+        </div>
+        <div class="fact reveal">
+          <span class="fact-k">0.85 → 0.92</span>
+          <span class="fact-v">location impact ratio<br />four-fifths rule: still short of 1.0</span>
+        </div>
+        <div class="fact reveal">
+          <span class="fact-k">−0.031 → −0.016</span>
+          <span class="fact-v">Asia vs US score gap<br />about half the penalty removed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="honest reveal">
+      <p class="mono-label">The honest part</p>
+      <p>
+        LEACE removes the <em>linear</em> component of location. 10.4% flips is better than 15.3% but
+        still five times the 1% target: the rest of the signal is non-linear, exactly the failure
+        Gonen &amp; Goldberg (2019) warned about. Redaction, a location-blind encoder, or
+        fine-tuning with a fairness objective are the next steps — not “solved”.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== 04 LAB -->
+<section class="band" id="lab">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>04</span> The bias lab</p>
+      <h2>Take a real CV. Move it around the world.</h2>
+      <p class="section-lede">
+        Pick a CV from the audit, choose a job, and watch the same text get a
+        different decision. The sample CVs use embeddings computed offline with this exact
+        pipeline. Paste your own and MiniLM runs locally in your browser — nothing is uploaded.
+      </p>
+    </header>
+
+    <div class="lab" id="lab-app">
+      <div class="lab-controls panel">
+        <div class="lab-tabs" role="tablist" aria-label="CV source">
+          <button class="lab-tab is-on" role="tab" aria-selected="true" data-source="sample">Sample CVs</button>
+          <button class="lab-tab" role="tab" aria-selected="false" data-source="custom">Paste your own</button>
+        </div>
+
+        <div class="lab-pane" data-pane="sample">
+          <label class="field">
+            <span class="field-label">Résumé</span>
+            <select id="cv-select" class="select"></select>
+          </label>
+          <div class="detect" id="cv-detect" aria-live="polite"></div>
+        </div>
+
+        <div class="lab-pane is-hidden" data-pane="custom">
+          <label class="field">
+            <span class="field-label">Résumé text</span>
+            <textarea id="cv-text" class="textarea" rows="9" spellcheck="false"
+              placeholder="Paste a CV. Plain text or copy-paste from a PDF. Your text stays in this tab."></textarea>
+          </label>
+          <div class="field-row">
+            <button class="btn btn-small" id="load-sample-text" type="button">Load an example into the box</button>
+            <span class="hint" id="cv-words">0 words</span>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Job description</span>
+          <select id="job-select" class="select"></select>
+        </label>
+
+        <button class="btn btn-primary btn-block" id="run-btn">Screen the CV <span aria-hidden="true">→</span></button>
+        <p class="hint" id="run-hint">Sample CVs are instant. Your own text downloads the 23 MB int8 model once.</p>
+
+        <div class="model-status is-hidden" id="model-status">
+          <div class="progress"><span id="model-bar"></span></div>
+          <p class="hint" id="model-text">Preparing the model…</p>
+        </div>
+      </div>
+
+      <div class="lab-results" id="lab-results" aria-live="polite">
+        <div class="result-empty" id="result-empty">
+          <p class="mono-label">Awaiting input</p>
+          <p>Pick a CV and a job, then screen it. Both screeners run side by side: the original
+            MiniLM embeddings and the same embeddings after the LEACE eraser.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="lab-foot">
+      Scores are cosine similarities, PASS when above the calibrated threshold. The six twins vary
+      only the name header and the address — never the content. A twin that changes the decision
+      is the definition of bias we use throughout: <em>the same candidate, treated differently for
+      something that isn't a qualification.</em>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================== 05 DATA -->
+<section class="band band-alt" id="data">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>05</span> The data</p>
+      <h2>What's actually inside 2,484 résumés</h2>
+      <p class="section-lede">
+        Before scoring anything we scanned the corpus for protected-attribute cues. Most gendered
+        and geographic signal is masked; the rest is sparse and uneven. That is the reality any
+        audit has to work with.
+      </p>
+    </header>
+
+    <div class="data-grid">
+      <div class="panel reveal">
+        <p class="mono-label">Education level</p>
+        <div id="edu-chart" data-chart="education"></div>
+      </div>
+      <div class="panel reveal">
+        <p class="mono-label">Countries mentioned in CVs</p>
+        <div id="country-chart" data-chart="countries"></div>
+      </div>
+      <div class="panel reveal panel-wide">
+        <p class="mono-label">Résumés per field</p>
+        <div id="category-chart" data-chart="categories"></div>
+      </div>
+      <div class="panel reveal panel-wide">
+        <p class="mono-label">Other cues, counted not audited</p>
+        <ul class="cue-list" id="cue-list"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================== 06 LIMITS -->
+<section class="band" id="limits">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="section-kicker"><span>06</span> Limits &amp; reproduction</p>
+      <h2>What this build does not prove</h2>
+    </header>
+
+    <div class="limits-grid">
+      <ul class="limits-list reveal">
+        <li><strong>Three attributes, not nine.</strong> Race, age, religion, nationality, disability
+          and others are counted but not audited or erased. The original brief named racism; the
+          measurable, repeatable finding in this data was location.</li>
+        <li><strong>Injected names are a weak probe.</strong> A real name carries more signal than a
+          one-line header. Gender's null result should be read as “this probe is too small”, not
+          “this model is gender-blind”.</li>
+        <li><strong>Browser numbers are int8.</strong> The demo runs a quantised model: scores differ
+          from the fp32 reference by about ±0.005 (mean −0.004). The before/after comparison is
+          same-model, same-run.</li>
+        <li><strong>US-only jobs, small encoder.</strong> All 120 postings are US-based and MiniLM is
+          a 22M-parameter similarity model, not a production ATS. Absolute pass rates will not
+          transfer to another stack.</li>
+        <li><strong>Not a hiring tool.</strong> This is an audit harness and a demonstration of
+          erasure; the honest headline is “bias reduced, not eliminated”.</li>
+      </ul>
+
+      <div class="repro card-ink reveal">
+        <p class="mono-label">Reproduce</p>
+        <pre><code><span class="c"># scan, score, audit the original</span>
+python -m src.scan
+python -m src.audit --method biased
+
+<span class="c"># fit the eraser, audit again</span>
+python -m src.audit --method leace
+
+<span class="c"># export both screeners to one ONNX graph</span>
+python -m src.export_onnx
+
+<span class="c"># the Streamlit version of this demo</span>
+streamlit run app.py</code></pre>
+        <p class="repro-foot">Artefacts: <span class="mono">audit_biased_metrics.json</span> ·
+          <span class="mono">audit_leace_metrics.json</span> ·
+          <span class="mono">leace.npz</span></p>
+      </div>
+    </div>
+
+    <div class="refs reveal">
+      <p class="mono-label">References</p>
+      <ol>
+        <li>Belrose et al. (2023). <em>LEACE: Perfect linear concept erasure in closed form.</em> arXiv:2306.03819.</li>
+        <li>Bolukbasi et al. (2016). <em>Man is to Computer Programmer as Woman is to Homemaker?</em> NeurIPS.</li>
+        <li>Gonen &amp; Goldberg (2019). <em>Lipstick on a Pig: Debiasing Methods Cover up Systematic Gender Biases.</em> NAACL.</li>
+        <li>Kusner et al. (2017). <em>Counterfactual Fairness.</em> NeurIPS.</li>
+        <li>Wilson &amp; Caliskan (2024). <em>Gender, Race, and Intersectional Bias in Résumé Screening via Language Model Retrieval.</em> AIES.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <p class="brand-word">RASK<span class="brand-dot">·</span>BIAS</p>
+      <p class="footer-note">A fairness audit and a closed-form eraser for résumé screening.
+        Résumé data: Kaggle <em>Resume</em>. Jobs: Datastax <em>LinkedIn job listings</em>.</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/altcar/RASK-bias" target="_blank" rel="noreferrer">Source · altcar/RASK-bias ↗</a>
+      <a href="#audit">Back to the audit</a>
+      <a href="#lab">Open the bias lab</a>
+    </div>
+  </div>
+  <div class="wrap footer-fine">
+    <p>Served from Cloudflare Workers · model inference in your browser · no analytics, no CVs stored.</p>
+  </div>
+</footer>
+
+<script type="module" src="/assets/app.js"></script>
+</body>
+</html>

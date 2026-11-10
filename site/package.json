@@ -1,0 +1,35 @@
+{
+  "name": "rask-bias-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "RASK-bias: fairness audit + LEACE debiasing showcase, on Cloudflare Workers",
+  "scripts": {
+    "ci": "node scripts/fetch-model.mjs && npm run assets && npm run build",
+    "assets": "node scripts/setup-assets.mjs",
+    "data": "node scripts/prepare-data.mjs",
+    "examples": "node scripts/prepare-examples.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "shots": "node scripts/sections.mjs"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "workerd": true,
+    "@huggingface/transformers": false,
+    "onnxruntime-node": true,
+    "sharp": true
+  },
+  "dependencies": {
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@huggingface/transformers": "^4.3.2",
+    "csv-parse": "^6.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.27.0",
+    "playwright": "^1.58.0"
+  }
+}

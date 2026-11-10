@@ -1,0 +1,10 @@
+node_modules/
+.cache/
+shots/
+public/model/
+public/ort/
+public/shared/
+.wrangler/
+data/Resume.csv
+*.log
+public/assets/lab.js

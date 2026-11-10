@@ -1,0 +1,95 @@
+{
+  "gender": {
+    "pass_rate": {
+      "Female": 0.6412,
+      "Male": 0.6423
+    },
+    "impact_ratio": 0.998370314654632,
+    "flip_rate": 0.009581320450885668,
+    "flipped_pairs": 119,
+    "pairs": 12420,
+    "score_gap_vs_Male": {
+      "Female": {
+        "mean": -0.00041587279791585315,
+        "ci95": [
+          -0.0005417970080766911,
+          -0.0002899485877550152
+        ],
+        "significant": true
+      }
+    },
+    "biased": false
+  },
+  "location": {
+    "pass_rate": {
+      "Asia": 0.5894,
+      "UK/Europe": 0.6058,
+      "US": 0.6375
+    },
+    "impact_ratio": 0.9244758777469058,
+    "flip_rate": 0.10394524959742352,
+    "flipped_pairs": 1291,
+    "pairs": 12420,
+    "score_gap_vs_US": {
+      "Asia": {
+        "mean": -0.01627125495950273,
+        "ci95": [
+          -0.017354316619859186,
+          -0.015188193299146273
+        ],
+        "significant": true
+      },
+      "UK/Europe": {
+        "mean": -0.012127934386818737,
+        "ci95": [
+          -0.012846480940315298,
+          -0.011409387833322175
+        ],
+        "significant": true
+      }
+    },
+    "us_pass_but_UK/Europe_fail": 563,
+    "UK/Europe_pass_but_us_fail": 169,
+    "us_pass_but_Asia_fail": 791,
+    "Asia_pass_but_us_fail": 193,
+    "biased": true
+  },
+  "education": {
+    "pass_rate": {
+      "Associate": 0.6609,
+      "Bachelor": 0.6611,
+      "Master": 0.6592
+    },
+    "impact_ratio": 0.9971576227390181,
+    "flip_rate": 0.007891332470892626,
+    "flipped_pairs": 61,
+    "pairs": 7730,
+    "score_gap_vs_Master": {
+      "Associate": {
+        "mean": 0.00023622491737123252,
+        "ci95": [
+          8.581412999613381e-05,
+          0.00038663570474633125
+        ],
+        "significant": true
+      },
+      "Bachelor": {
+        "mean": 0.00017042654189359464,
+        "ci95": [
+          4.1798703620592734e-05,
+          0.00029905438016659654
+        ],
+        "significant": true
+      }
+    },
+    "legitimate_fails_below_requirement": 675,
+    "biased": false
+  },
+  "calibration": {
+    "threshold": 0.41819849610328674,
+    "auc": 0.7797823010486324,
+    "tpr_own_category": 0.6423510466988728,
+    "fpr_other_category": 0.2123223412448365,
+    "top1_category_acc": 0.40660225442834136
+  }
+}

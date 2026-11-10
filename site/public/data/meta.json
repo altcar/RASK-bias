@@ -1,0 +1,1 @@
+{"built":"2026-11-10T19:49:19.222Z","model":"sentence-transformers/all-MiniLM-L6-v2","runner":"Xenova/all-MiniLM-L6-v2 · int8 (q8) · onnxruntime-web","dim":384,"jobs":120,"resumes":2484,"chunkWords":180,"maxTokens":256}
