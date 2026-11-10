@@ -59,3 +59,6 @@ Everything they emit is committed under `public/data/`, so a deploy does not nee
   long-lived caching for model/WASM/data assets.
 - `public/data/leace_a.bin` + `leace_b.bin` are the shipped eraser, `x @ A + b` before the final
   L2 normalisation — identical maths to `src/debias.py`.
+
+Deploys are triggered by pushes that touch `site/` in altcar/RASK-bias.
+
